@@ -1,0 +1,29 @@
+version: 1
+disable_existing_loggers: no
+formatters:
+  default:
+    format: "%(asctime)s  %(name)-16s  %(levelname)-8s  %(message)s"
+  simple:
+    format: "%(asctime)s  %(levelname)-8s  %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  file:
+    class: logging.handlers.TimedRotatingFileHandler
+    formatter: default
+    filename: ./logs/app.log
+    when: midnight
+loggers:
+  requests.packages.urllib3:
+    level: DEBUG
+    propagate: yes
+  oauthlib:
+    level: DEBUG
+    propagate: yes
+root:
+  level: DEBUG
+  handlers: [console, file]
